@@ -1,0 +1,32 @@
+{
+  "name": "wasm-game-of-life",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/host.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "./buildwasm && webpack --config webpack.config.js",
+    "dev": "webpack serve",
+    "start": "npm run build && node ./src/host.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Arkanic/game-of-life.git"
+  },
+  "author": "Arkanic",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Arkanic/game-of-life/issues"
+  },
+  "homepage": "https://github.com/Arkanic/game-of-life#readme",
+  "devDependencies": {
+    "copy-webpack-plugin": "^9.0.0",
+    "wasm-internals": "file:./src/rs/pkg",
+    "webpack": "^5.38.1",
+    "webpack-cli": "^4.7.2"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "webpack-dev-server": "^3.11.2"
+  }
+}

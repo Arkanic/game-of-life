@@ -1,0 +1,2 @@
+cd src/rs
+wasm-pack build
