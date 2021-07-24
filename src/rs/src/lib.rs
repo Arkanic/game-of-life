@@ -9,6 +9,7 @@ use wasm_bindgen::prelude::*;
 static ALLOC:wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
 use std::fmt;
+use std::mem;
 
 mod cell;
 mod timer;
@@ -97,10 +98,10 @@ impl Universe {
         for row in 0..self.height {
             for col in 0..self.width {
                 let idx = self.get_index(row, col);
-                let theCell = self.cells[idx];
+                let the_cell = self.cells[idx];
                 let live_neighbours = self.live_neighbour_count(row, col);
 
-                let next_cell = match (theCell, live_neighbours) {
+                let next_cell = match (the_cell, live_neighbours) {
                     (cell::Cell::Alive, x) if x < 2 => cell::Cell::Dead,
                     (cell::Cell::Alive, 2) | (cell::Cell::Alive, 3) => cell::Cell::Alive,
                     (cell::Cell::Alive, x) if x > 3 => cell::Cell::Dead,
@@ -155,8 +156,11 @@ impl Universe {
         self.cells = (0..self.width * height).map(|_i| cell::Cell::Dead).collect();
     }
 
-    pub fn cells(&self) -> *const cell::Cell {
-        self.cells.as_ptr()
+    pub fn cells(&self) -> js_sys::Uint8Array {
+        unsafe {
+            let u8_cells = mem::transmute::<&Vec<cell::Cell>, &Vec<u8>>(&self.cells);
+            js_sys::Uint8Array::view(&u8_cells)
+        }
     }
 
     pub fn toggle_cell(&mut self, row:u32, column:u32) {

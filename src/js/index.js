@@ -1,5 +1,4 @@
 import {Universe, Cell} from "wasm-internals";
-import {memory} from "wasm-internals/wasm_game_of_life_bg.wasm";
 
 import FPS from "./src/fps";
 
@@ -84,11 +83,9 @@ const getIndex = (row, column) => {
 }
 
 const drawCells = () => {
-    const cellsPtr = universe.cells();
-    const cells = new Uint8Array(memory.buffer, cellsPtr, width * height);
+    const cells = universe.cells();
 
     ctx.beginPath();
-    
     
     for(let row = 0; row < height; row++) {
         for(let col = 0; col < width; col++) {
@@ -118,5 +115,25 @@ const drawCells = () => {
 
     ctx.stroke();
 }
+
+canvas.addEventListener("click", (e) => {
+    let boundingArea = canvas.getBoundingClientRect();
+
+    let scaleX = canvas.width / boundingArea.width;
+    let scaleY = canvas.height / boundingArea.height;
+
+    let canvasLeft = (e.clientX - boundingArea.left) * scaleX;
+    let canvasTop = (e.clientY - boundingArea.top) * scaleY;
+
+    let {size} = constants.cell;
+
+    let row = Math.min(Math.floor(canvasTop / (size + 1)), height - 1);
+    let col = Math.min(Math.floor(canvasLeft / (size + 1)), width - 1);
+
+    universe.toggle_cell(row, col);
+
+    drawGrid();
+    drawCells();
+});
 
 play();
