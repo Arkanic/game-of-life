@@ -12,7 +12,6 @@ use std::fmt;
 use std::mem;
 
 mod cell;
-mod timer;
 
 #[wasm_bindgen]
 pub struct Universe {
