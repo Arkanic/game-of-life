@@ -15,6 +15,7 @@ const constants = {
 
 let canvas = document.getElementById("game-canvas");
 let playPause = document.getElementById("play-pause");
+let clearCells = document.getElementById("clear-cells");
 
 canvas.width = window.innerWidth - 200;
 canvas.height = window.innerHeight;
@@ -51,12 +52,12 @@ function isPaused() {
 }
 
 function play() {
-    playPause.textContent = "||";
+    playPause.textContent = "Pause";
     renderLoop();
 }
 
 function pause() {
-    playPause.textContent = ">";
+    playPause.textContent = "Play";
     cancelAnimationFrame(animationId);
     animationId = null;
 }
@@ -139,6 +140,10 @@ canvas.addEventListener("click", (e) => {
 
     drawGrid();
     drawCells();
+});
+
+clearCells.addEventListener("click", (e) => {
+    universe.clear_cells();
 });
 
 play();

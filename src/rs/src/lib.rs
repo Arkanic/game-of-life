@@ -163,6 +163,16 @@ impl Universe {
         let idx = self.get_index(row, column);
         self.cells[idx].toggle();
     }
+    
+    pub fn clear_cells(&mut self) {
+        for row in 0..self.height {
+            for col in 0..self.width {
+                let idx = self.get_index(row, col);
+                let cell = &mut self.cells[idx];
+                cell.toggle();
+            }
+        }
+    }
 }
 
 impl fmt::Display for Universe {
