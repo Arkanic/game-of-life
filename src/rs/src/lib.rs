@@ -115,11 +115,8 @@ impl Universe {
         self.cells = next;
     }
 
-    pub fn new() -> Universe {
+    pub fn new(width:u32, height:u32) -> Universe {
         utils::set_panic_hook();
-
-        let width = 128u32;
-        let height = 128u32;
 
         let cells = (0..width * height)
             .map(|i| {

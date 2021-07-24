@@ -4,7 +4,7 @@ import FPS from "./src/fps";
 
 const constants = {
     cell: {
-        size: 5
+        size: 10
     },
     color: {
         grid: "#CCCCCC",
@@ -13,22 +13,27 @@ const constants = {
     }
 };
 
-let universe = Universe.new();
-let width = universe.width();
-let height = universe.height();
-
 let canvas = document.getElementById("game-canvas");
 let playPause = document.getElementById("play-pause");
 
-canvas.width = (constants.cell.size + 1) * width + 1;
-canvas.height = (constants.cell.size + 1) * height + 1;
+canvas.width = window.innerWidth - 200;
+canvas.height = window.innerHeight;
+
+let universe = Universe.new(Math.floor(canvas.width / constants.cell.size), Math.floor(canvas.height / constants.cell.size));
+let width = universe.width();
+let height = universe.height();
+
+// disused, using relative size is much better than fixed attempt
+//canvas.width = (constants.cell.size + 1) * width + 1;
+//canvas.height = (constants.cell.size + 1) * height + 1;
+//canvas.width = canvas.height * (canvas.clientWidth / canvas.clientHeight);
 
 let ctx = canvas.getContext("2d");
 
 let fps = new FPS("fps");
 let animationId = null;
 
-const renderLoop = () => {
+function renderLoop() {
     fps.render();
 
     drawGrid();
@@ -41,16 +46,16 @@ const renderLoop = () => {
     animationId = requestAnimationFrame(renderLoop);
 }
 
-const isPaused = () => {
+function isPaused() {
     return animationId === null;
 }
 
-const play = () => {
+function play() {
     playPause.textContent = "||";
     renderLoop();
 }
 
-const pause = () => {
+function pause() {
     playPause.textContent = ">";
     cancelAnimationFrame(animationId);
     animationId = null;
@@ -61,7 +66,7 @@ playPause.addEventListener("click", (e) => {
     else pause();
 });
 
-const drawGrid = () => {
+function drawGrid() {
     ctx.beginPath();
     ctx.strokStyle = constants.color.grid;
 
@@ -78,11 +83,11 @@ const drawGrid = () => {
     ctx.stroke();
 }
 
-const getIndex = (row, column) => {
+function getIndex(row, column) {
     return row * width + column;
 }
 
-const drawCells = () => {
+function drawCells() {
     const cells = universe.cells();
 
     ctx.beginPath();
