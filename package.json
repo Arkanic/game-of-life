@@ -26,6 +26,7 @@
     "webpack-cli": "^4.7.2"
   },
   "dependencies": {
+    "clean-webpack-plugin": "^4.0.0-alpha.0",
     "express": "^4.17.1",
     "webpack-dev-server": "^3.11.2"
   }
