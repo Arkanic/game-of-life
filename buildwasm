@@ -1,2 +1,2 @@
 cd src/rs
-wasm-pack build
+sudo wasm-pack build
