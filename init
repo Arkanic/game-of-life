@@ -1,2 +1,3 @@
-sudo ./buildwasm
-sudo npm i
+apt-get install wasm-pack
+./buildwasm
+npm i
